@@ -42,7 +42,11 @@
   <ItemGroup>
     <Compile Include="Binding\CommandAliasAttribute.cs" />
     <Compile Include="Binding\CommandInfoAttribute.cs" />
+    <Compile Include="Binding\CommandLineBinder.cs" />
+    <Compile Include="Binding\ParameterVerbAttribute.cs" />
     <Compile Include="CommandLineApplication.cs" />
+    <Compile Include="Parser\CommandLineArguments.cs" />
+    <Compile Include="Parser\CommandLineParser.cs" />
     <Compile Include="Validation\MustBeOneOfAttribute.cs" />
     <Compile Include="Binding\ParameterAliasAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

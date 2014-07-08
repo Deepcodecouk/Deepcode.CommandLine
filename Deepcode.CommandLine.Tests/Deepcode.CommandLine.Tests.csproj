@@ -47,8 +47,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandDictionaryTests\ManualCommandManagementFixture.cs" />
-    <Compile Include="CommandDictionaryTests\TestCommands\SimpleCommand.cs" />
+    <Compile Include="Binding\SimpleBindingFixture.cs" />
+    <Compile Include="Helpers\StringToCommandLineArgumentsExtension.cs" />
+    <Compile Include="Parser\CommandLineParserFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
