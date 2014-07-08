@@ -81,10 +81,12 @@ namespace Deepcode.CommandLine.Parser
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="value"></param>
-		public void AddValue(string key, string value)
+		public CommandLineArguments AddValue(string key, string value)
 		{
 			if (! HasSwitch(key)) _tokens.Add(key, new List<string>());
 			if (! String.IsNullOrEmpty(value)) _tokens[key].Add(value);
+
+			return this;
 		}
 	}
 }
