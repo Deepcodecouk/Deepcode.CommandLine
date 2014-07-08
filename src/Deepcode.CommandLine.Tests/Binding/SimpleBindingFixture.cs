@@ -155,7 +155,7 @@ namespace Deepcode.CommandLine.Tests.Binding
 		}
 
 		[Fact]
-		public void Can_Bind_Invalid_Boolean_Values_Sets_Default()
+		public void Can_Bind_Invalid_Boolean_Values_But_Ignores()
 		{
 			// Arrange
 			var args = new CommandLineArguments().AddValue("vip", "invalid_value");

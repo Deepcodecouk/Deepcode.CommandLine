@@ -35,6 +35,7 @@ namespace Deepcode.CommandLine.Tests.Binding
 			public string Message { get; set; }
 		}
 
+
 		[Fact]
 		public void Given_Full_Command_Line_Binds_As_Expected()
 		{

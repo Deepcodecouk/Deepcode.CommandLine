@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\ArrayBindingFixture.cs" />
+    <Compile Include="Binding\ParameterMultipleBindingFixture.cs" />
     <Compile Include="Binding\SampleBindingFixture.cs" />
     <Compile Include="Binding\VerbBindingFixture.cs" />
     <Compile Include="Binding\SimpleBindingFixture.cs" />

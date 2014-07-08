@@ -24,7 +24,7 @@ namespace Deepcode.CommandLine.Parser
 		}
 
 		/// <summary>
-		/// Gets the list of verbs - this is the same as using Switch("")
+		/// Gets the list of verbs 
 		/// </summary>
 		public string[] Verbs
 		{

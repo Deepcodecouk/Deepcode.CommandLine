@@ -87,7 +87,7 @@ namespace Deepcode.CommandLine.Tests.Binding
 		}
 
 		[Fact]
-		public void Can_Bind_Multiple_Invalid_Integer_Values_Sets_Default()
+		public void Can_Bind_Multiple_Invalid_Integer_Values_But_Ignores()
 		{
 			// Arrange
 			var args = new CommandLineArguments().AddValue("age", "yes").AddValue("age", "no");
@@ -96,9 +96,7 @@ namespace Deepcode.CommandLine.Tests.Binding
 			var result = _binder.CreateAndBindTo<TargetBindingSimple>(args);
 
 			// Assert
-			result.Age.Length.ShouldEqual(2);
-			result.Age[0].ShouldEqual(0);
-			result.Age[1].ShouldEqual(0);
+			result.Age.Length.ShouldEqual(0);
 		}
 
 		[Fact]

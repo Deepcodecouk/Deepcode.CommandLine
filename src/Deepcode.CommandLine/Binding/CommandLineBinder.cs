@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Deepcode.CommandLine.Extensions;
@@ -12,6 +13,23 @@ namespace Deepcode.CommandLine.Binding
 	/// </summary>
 	public class CommandLineBinder
 	{
+		public List<string> UnboundErrors { get; private set; }
+
+		/// <summary>
+		/// Creates a new instance of the command line binder
+		/// </summary>
+		public CommandLineBinder()
+		{
+			UnboundErrors = new List<string>();
+		}
+		
+		/// <summary>
+		/// Creates an instance of type T and binds command line arguments to
+		/// it based on the binding attributes.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="arguments"></param>
+		/// <returns></returns>
 		public T CreateAndBindTo<T>(CommandLineArguments arguments)
 		{
 			var type = typeof (T);
@@ -23,8 +41,18 @@ namespace Deepcode.CommandLine.Binding
 			return BindTo(arguments, entity);
 		}
 
+		/// <summary>
+		/// Binds the command line arguments to the object passed in
+		/// based on the binding attributes.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="arguments"></param>
+		/// <param name="instance"></param>
+		/// <returns></returns>
 		public T BindTo<T>(CommandLineArguments arguments, T instance)
 		{
+			UnboundErrors.Clear();
+
 			BindVerbs(arguments, instance);
 			BindParameters(arguments, instance);
 			return instance;
@@ -34,21 +62,26 @@ namespace Deepcode.CommandLine.Binding
 		{
 			if( arguments.Verbs.Length < 1 ) return;
 
-			var verbProperties = typeof (T).GetPropertiesWithCustomAttributes<ParameterVerbAttribute>();
-
+			var verbProperties = typeof(T).GetPropertiesWithCustomAttributes<ParameterVerbAttribute>();
 			
-			for (var verbIndex=0; verbIndex<arguments.Verbs.Length; verbIndex++)
+			for (var commandLineVerbIndex=0; commandLineVerbIndex < arguments.Verbs.Length; commandLineVerbIndex++)
 			{
-				var verb = arguments.Verbs[verbIndex];
-				var verbPosition = verbIndex + 1;
-				var bindVerbProperties = verbProperties.Where( p => p.Attributes.Any( a => verbPosition >= a.StartPosition && verbPosition <= a.EndPosition));
+				var commandLineVerb = arguments.Verbs[commandLineVerbIndex];
+				var commandLineVerbPosition = commandLineVerbIndex + 1;
 
-				foreach (var bindProperty in bindVerbProperties)
-					BindTo(instance, bindProperty.Property, new[]{ verb });
+				var targetVerbProperties = verbProperties
+					.Where(p => p.Attributes.Any(a => commandLineVerbPosition >= a.StartPosition && commandLineVerbPosition <= a.EndPosition))
+					.ToList();
+
+				if (targetVerbProperties.Count < 1)
+				{
+					UnboundErrors.Add(string.Format("Unknown verb [{0}] at position {1}", commandLineVerb, commandLineVerbPosition));
+					continue;
+				}
+
+				foreach (var targetVerbProperty in targetVerbProperties)
+					BindTo(instance, targetVerbProperty.Property, new[]{ commandLineVerb });
 			}
-
-			/*foreach (var verbProperty in verbProperties)
-				BindTo(instance, verbProperty.Property, arguments.Verbs, true);*/
 		}
 
 		private void BindParameters<T>(CommandLineArguments arguments, T instance)
@@ -57,16 +90,29 @@ namespace Deepcode.CommandLine.Binding
 
 			var switchProperties = typeof(T).GetPropertiesWithCustomAttributes<ParameterAliasAttribute>();
 
-			foreach (var commandSwitch in arguments.Switches)
+			foreach (var commandLineSwitch in arguments.Switches)
 			{
-				var propertyToBindTo = switchProperties.FirstOrDefault(s => s.Attributes.Any(a => a.Alias == commandSwitch));
-				if (propertyToBindTo != null)
-				{
-					BindTo(instance, propertyToBindTo.Property, arguments.Switch(commandSwitch));
-				}
-				// TODO: If we didn't find anything to bind to, should we error?
-			}
+				var commandLineSwitchParameters = arguments.Switch(commandLineSwitch);
 
+				var targetSwitchProperties = switchProperties
+					.Where(s => s.Attributes.Any(a => a.Alias == commandLineSwitch))
+					.ToList();
+
+				if (targetSwitchProperties.Count < 1)
+				{
+					var allParameters = arguments.SwitchMerged(commandLineSwitch);
+					UnboundErrors.Add(string.Format("Unknown switch option [{0}]{1}{2}{3}",
+						commandLineSwitch,
+						string.IsNullOrEmpty(allParameters) ? "" : " with parameters [",
+						allParameters,
+						string.IsNullOrEmpty(allParameters) ? "" : "]"));
+
+					continue;
+				}
+
+				foreach( var targetSwitchProperty in targetSwitchProperties)
+					BindTo(instance, targetSwitchProperty.Property, commandLineSwitchParameters);
+			}
 		}
 
 		private void BindTo(object instance, PropertyInfo property, string [] value)
@@ -97,16 +143,8 @@ namespace Deepcode.CommandLine.Binding
 			{			
 				var valueArray = ConvertArrayToType(targetType, value);
 				var index = valueArray.Length - 1;
-				property.SetValue(instance, valueArray.GetValue(index));
+				if( index >= 0 ) property.SetValue(instance, valueArray.GetValue(index));
 			}
-		}
-
-		private bool IsStringAndHasValue(object instance, PropertyInfo property, Type targetType)
-		{
-			if (targetType != typeof (string)) return false;
-
-			var value = property.GetValue(instance);
-			return !String.IsNullOrEmpty((string) value);
 		}
 
 		private Array ConvertArrayToType(Type targetType, string[] value)
@@ -118,21 +156,31 @@ namespace Deepcode.CommandLine.Binding
 				return value.Select(v =>
 				{
 					int newValue;
-					if (! Int32.TryParse(v, out newValue)) return default(int);
-					return newValue;
-				}).ToArray();
+					if (! Int32.TryParse(v, out newValue)) 
+						return new { Value = default(int), Parsed = false };
+
+					return new {Value = newValue, Parsed = true};
+
+				}).Where(v => v.Parsed).Select(v => v.Value).ToArray();
 			}
 
 			if (targetType == typeof (bool))
 			{
+				// Specified switch only - no values = true
 				if (value.Length < 1) return new[] {true};
-				
-				return value.Select(v =>
+
+				var parsed = value.Select(v =>
 				{
 					bool newValue;
-					if (! bool.TryParse(v, out newValue)) return true;
-					return newValue;
-				}).ToArray();
+					if (! bool.TryParse(v, out newValue))
+						return new {Value = default(bool), Parsed = false};
+
+					return new {Value = newValue, Parsed = true};
+				}).Where(v => v.Parsed).Select(v => v.Value).ToArray();
+
+				// Specified switch but no parsable values = true (they specified the switch)
+				if (parsed.Length == 0) return new[] {true};
+				return parsed;
 			}
 
 			return value;
