@@ -74,19 +74,6 @@ namespace Deepcode.CommandLine.Tests.Binding
 		}
 
 		[Fact]
-		public void Verbs_Are_Bound_In_Order_Presented()
-		{
-			// Arrange
-			var args = new CommandLineArguments().AddVerb("hello").AddVerb("world").AddVerb("welcome");
-
-			// Act
-			var result = _binder.CreateAndBindTo<TargetBindingSimple>(args);
-
-			// Assert
-			result.Action.ShouldEqual("welcome");
-		}
-
-		[Fact]
 		public void Can_Bind_Parameters_By_Alias()
 		{
 			// Arrange
@@ -106,7 +93,7 @@ namespace Deepcode.CommandLine.Tests.Binding
 		public void Can_Bind_Multiple_Parameters_To_Single_Target_Last_Wins()
 		{
 			// Arrange
-			var args = new CommandLineArguments().AddValue("name", "Mr Test").AddValue("n", "Mr Test 2");
+			var args = new CommandLineArguments().AddValue("name", "Mr Test").AddValue("n", "Middle man").AddValue("n", "Mr Test 2");
 
 			// Act
 			var result = _binder.CreateAndBindTo<TargetBindingSimple>(args);

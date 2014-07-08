@@ -36,8 +36,19 @@ namespace Deepcode.CommandLine.Binding
 
 			var verbProperties = typeof (T).GetPropertiesWithCustomAttributes<ParameterVerbAttribute>();
 
-			foreach (var verbProperty in verbProperties)
-				BindTo(instance, verbProperty.Property, arguments.Verbs);
+			
+			for (var verbIndex=0; verbIndex<arguments.Verbs.Length; verbIndex++)
+			{
+				var verb = arguments.Verbs[verbIndex];
+				var verbPosition = verbIndex + 1;
+				var bindVerbProperties = verbProperties.Where( p => p.Attributes.Any( a => verbPosition >= a.StartPosition && verbPosition <= a.EndPosition));
+
+				foreach (var bindProperty in bindVerbProperties)
+					BindTo(instance, bindProperty.Property, new[]{ verb });
+			}
+
+			/*foreach (var verbProperty in verbProperties)
+				BindTo(instance, verbProperty.Property, arguments.Verbs, true);*/
 		}
 
 		private void BindParameters<T>(CommandLineArguments arguments, T instance)
@@ -56,14 +67,6 @@ namespace Deepcode.CommandLine.Binding
 				// TODO: If we didn't find anything to bind to, should we error?
 			}
 
-/*			foreach (var switchProperty in switchProperties)
-			{
-				foreach (var switchAttribute in switchProperty.Attributes)
-				{
-					if( ! arguments.HasSwitch(switchAttribute.Alias)) continue;
-					BindTo(instance, switchProperty.Property, arguments.Switch(switchAttribute.Alias));
-				}
-			}*/
 		}
 
 		private void BindTo(object instance, PropertyInfo property, string [] value)
@@ -87,14 +90,23 @@ namespace Deepcode.CommandLine.Binding
 					var copyArray = Array.CreateInstance(innerType, currentArray.Length + valueArray.Length);
 					Array.Copy(currentArray, copyArray, currentArray.Length);
 					Array.Copy(valueArray, 0, copyArray, currentArray.Length, valueArray.Length);
-					copyArray.SetValue(value, currentArray.Length);
+					property.SetValue(instance, copyArray);
 				}
 			}
 			else
-			{
+			{			
 				var valueArray = ConvertArrayToType(targetType, value);
-				property.SetValue(instance, valueArray.GetValue(valueArray.Length-1));
+				var index = valueArray.Length - 1;
+				property.SetValue(instance, valueArray.GetValue(index));
 			}
+		}
+
+		private bool IsStringAndHasValue(object instance, PropertyInfo property, Type targetType)
+		{
+			if (targetType != typeof (string)) return false;
+
+			var value = property.GetValue(instance);
+			return !String.IsNullOrEmpty((string) value);
 		}
 
 		private Array ConvertArrayToType(Type targetType, string[] value)

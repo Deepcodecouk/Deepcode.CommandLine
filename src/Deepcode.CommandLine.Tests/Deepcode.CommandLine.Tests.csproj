@@ -50,7 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\ArrayBindingFixture.cs" />
+    <Compile Include="Binding\SampleBindingFixture.cs" />
+    <Compile Include="Binding\VerbBindingFixture.cs" />
     <Compile Include="Binding\SimpleBindingFixture.cs" />
+    <Compile Include="Binding\UnboundArgumentsFixture.cs" />
+    <Compile Include="Binding\VerbBindingTypedFixture.cs" />
     <Compile Include="Helpers\StringToCommandLineArgumentsExtension.cs" />
     <Compile Include="Parser\CommandLineParserFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
