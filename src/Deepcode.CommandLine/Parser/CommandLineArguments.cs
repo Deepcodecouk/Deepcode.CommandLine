@@ -19,7 +19,7 @@ namespace Deepcode.CommandLine.Parser
 		{
 			get
 			{
-				return _tokens.Keys.ToArray();
+				return _tokens.Keys.Where( k => !string.IsNullOrEmpty(k)).ToArray();
 			}
 		}
 
@@ -87,6 +87,17 @@ namespace Deepcode.CommandLine.Parser
 			if (! String.IsNullOrEmpty(value)) _tokens[key].Add(value);
 
 			return this;
+		}
+
+		/// <summary>
+		/// Adds a verb to the structured collection (a value without
+		/// a switch). Same as calling AddValue("", value);
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public CommandLineArguments AddVerb(string value)
+		{
+			return AddValue("", value);
 		}
 	}
 }

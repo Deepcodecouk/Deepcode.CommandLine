@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Deepcode.CommandLine.Parser;
+﻿using Deepcode.CommandLine.Parser;
 using Deepcode.CommandLine.Tests.Helpers;
 using Should;
 using Xunit;
@@ -61,7 +60,7 @@ namespace Deepcode.CommandLine.Tests.Parser
 			var result = ParseCommandLine("verb -a a-one a-two -b b-one b-two -c c-one");
 
 			// Assert
-			result.Switches.Length.ShouldEqual(4);
+			result.Switches.Length.ShouldEqual(3);
 
 			result.Verbs.Length.ShouldEqual(1);
 			result.Verbs[0].ShouldEqual("verb");	
@@ -153,7 +152,7 @@ namespace Deepcode.CommandLine.Tests.Parser
 			var result = ParseCommandLine("commit -m \"Some message\" -m2:\"Some commit message goes here\" -r:1 -r 2 :token1 :token2 -can-do true");
 
 			// Assert
-			result.Switches.Length.ShouldEqual(5);
+			result.Switches.Length.ShouldEqual(4);
 			
 			result.Verbs.Length.ShouldEqual(1);
 			result.Verbs[0].ShouldEqual("commit");

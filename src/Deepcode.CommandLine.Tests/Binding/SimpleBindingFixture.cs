@@ -45,7 +45,6 @@ namespace Deepcode.CommandLine.Tests.Binding
 
 			// Assert
 			target.Action.ShouldEqual("action1");
-
 		}
 		
 		[Fact]
@@ -62,7 +61,7 @@ namespace Deepcode.CommandLine.Tests.Binding
 		}
 
 		[Fact]
-		public void Can_Bind_Multiple_Verbs_To_Single_Target()
+		public void Can_Bind_Multiple_Verbs_To_Single_Target_Last_Wins()
 		{
 			// Arrange
 			var args = new CommandLineArguments().AddValue("", "action1").AddValue("", "action2");
@@ -71,7 +70,20 @@ namespace Deepcode.CommandLine.Tests.Binding
 			var result = _binder.CreateAndBindTo<TargetBindingSimple>(args);
 
 			// Assert
-			result.Action.ShouldEqual("action1");
+			result.Action.ShouldEqual("action2");
+		}
+
+		[Fact]
+		public void Verbs_Are_Bound_In_Order_Presented()
+		{
+			// Arrange
+			var args = new CommandLineArguments().AddVerb("hello").AddVerb("world").AddVerb("welcome");
+
+			// Act
+			var result = _binder.CreateAndBindTo<TargetBindingSimple>(args);
+
+			// Assert
+			result.Action.ShouldEqual("welcome");
 		}
 
 		[Fact]
@@ -88,6 +100,19 @@ namespace Deepcode.CommandLine.Tests.Binding
 			// Assert
 			result1.Name.ShouldEqual("Mr Test");
 			result2.Name.ShouldEqual("Mr Test 2");
+		}
+
+		[Fact]
+		public void Can_Bind_Multiple_Parameters_To_Single_Target_Last_Wins()
+		{
+			// Arrange
+			var args = new CommandLineArguments().AddValue("name", "Mr Test").AddValue("n", "Mr Test 2");
+
+			// Act
+			var result = _binder.CreateAndBindTo<TargetBindingSimple>(args);
+
+			// Assert
+			result.Name.ShouldEqual("Mr Test 2");
 		}
 
 		[Fact]
