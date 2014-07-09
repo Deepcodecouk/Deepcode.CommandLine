@@ -10,25 +10,25 @@ You can use as much or as little as you like.
 
 At the lowest level, the parser is able to understand and structure your command line arguments into a list of verbs, switches and parameters, bu calling the Parse method on the CommandLineParser class. This returns a class (CommandLineArguments) which contains the structure of your command line in terms of verbs, switches and switch parameters.
 
-```
-    // Initialise the parser and parse the string[] args array
-    var parser = new CommandLineParser();
-    var arguments = parser.Parse(args);
+``` C#
+// Initialise the parser and parse the string[] args array
+var parser = new CommandLineParser();
+var arguments = parser.Parse(args);
 
-    // Inspect the command line
-    Console.WriteLine("---Verbs---");
-    foreach( var verb in arguments.Verbs)
-        Console.WriteLine(verb);
+// Inspect the command line
+Console.WriteLine("---Verbs---");
+foreach( var verb in arguments.Verbs)
+    Console.WriteLine(verb);
 
-    Console.WriteLine("---Switches---");
-    foreach( var switch in arguments.Switches)
+Console.WriteLine("---Switches---");
+foreach( var switch in arguments.Switches)
+{
+    Console.WriteLine(switch);
+    foreach( var parameter in arguments.Switch(switch) )
     {
-        Console.WriteLine(switch);
-        foreach( var parameter in arguments.Switch(switch) )
-        {
-            Console.WriteLine("\t{0}", parameter);
-        }
+        Console.WriteLine("\t{0}", parameter);
     }
+}
 ```
 
 Given the above code, if I invoke my app with the following command line:
