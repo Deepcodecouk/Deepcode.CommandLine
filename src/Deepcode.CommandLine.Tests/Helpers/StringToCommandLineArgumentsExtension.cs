@@ -22,6 +22,5 @@ namespace Deepcode.CommandLine.Tests.Helpers
 
 			return resultArguments.ToArray();
 		}
-
 	}
 }

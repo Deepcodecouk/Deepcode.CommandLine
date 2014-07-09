@@ -7,10 +7,10 @@ namespace Deepcode.CommandLine.Tests.Parser
 {
 	public class CommandLineParserFixture
 	{
-		private CommandLineArguments ParseCommandLine(string commandLine)
+		private CommandLineArguments ParseCommandLine(string commandLine, CommandLineParser existingParser = null)
 		{
 			var args = commandLine.AsCommandLineArgs();
-			var parser = new CommandLineParser();
+			var parser = existingParser ?? new CommandLineParser();
 
 			return parser.Parse(args);
 		}
@@ -188,6 +188,43 @@ namespace Deepcode.CommandLine.Tests.Parser
 			result.HasSwitch("fullname").ShouldBeTrue();
 			result.Switch("fullname").Length.ShouldEqual(3);
 			result.SwitchMerged("fullname").ShouldEqual("John Dorian Doe");
+		}
+
+		[Fact]
+		public void When_Parser_Is_Verb_Only_Switches_Are_Not_Parsed()
+		{
+			// Arrange / Act
+			var parser = new CommandLineParser {ParseSwitches = false};
+			var result = ParseCommandLine("verb1 verb2 -switchverb -verb3", parser);
+
+			// Assert
+			result.Switches.ShouldBeEmpty();
+			result.Verbs.Length.ShouldEqual(4);
+			result.Verbs[0].ShouldEqual("verb1");
+			result.Verbs[1].ShouldEqual("verb2");
+			result.Verbs[2].ShouldEqual("-switchverb");
+			result.Verbs[3].ShouldEqual("-verb3");
+		}
+
+		[Fact]
+		public void Can_Parse_With_Custom_Switches()
+		{
+			// Arrange / Act
+			var parser = new CommandLineParser {SwitchPrefixes = new[] {'@'}};
+			var result = ParseCommandLine("verb1 verb2 @values -100 /200 300", parser);
+
+			// Assert
+			result.Verbs.Length.ShouldEqual(2);
+			result.Verbs.ShouldContain("verb1");
+			result.Verbs.ShouldContain("verb2");
+
+			result.Switches.Length.ShouldEqual(1);
+			result.Switches.ShouldContain("values");
+
+			result.Switch("values").Length.ShouldEqual(3);
+			result.Switch("values").ShouldContain("-100");
+			result.Switch("values").ShouldContain("/200");
+			result.Switch("values").ShouldContain("300");
 		}
 	}
 }

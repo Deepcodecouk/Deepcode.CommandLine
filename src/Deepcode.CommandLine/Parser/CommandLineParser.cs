@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Deepcode.CommandLine.Extensions;
 
 namespace Deepcode.CommandLine.Parser
 {
@@ -8,6 +9,28 @@ namespace Deepcode.CommandLine.Parser
 	/// </summary>
 	public class CommandLineParser
 	{
+		/// <summary>
+		/// Defaults to true - when true will parse out switches into
+		/// the CommandLineArguments.Switches structure. When false, treats
+		/// all arguments as verbs.
+		/// </summary>
+		public bool ParseSwitches { get; set; }
+
+		/// <summary>
+		/// Defaults to ["-", "/"] sets the switch prefixes used to identify
+		/// a switch within the command line. 
+		/// </summary>
+		public char[] SwitchPrefixes { get; set; }
+
+		/// <summary>
+		/// Initialises an instance of the command line parser
+		/// </summary>
+		public CommandLineParser()
+		{
+			ParseSwitches = true;
+			SwitchPrefixes = new[] {'-', '/'};
+		}
+
 		/// <summary>
 		/// Parses the command line arguments provided into a CommandLineArguments structure
 		/// </summary>
@@ -31,10 +54,11 @@ namespace Deepcode.CommandLine.Parser
 		private ArgumentToken ParseTokens(string currentKey, string argument)
 		{
 			var token = new ArgumentToken {Switch = currentKey, Value = argument};
+			if( ! ParseSwitches ) return token;
 
-			if (token.Value.StartsWith("-") || token.Value.StartsWith("/"))
+			if (SwitchPrefixes.Any(p => token.Value.StartsWith(p)))
 			{
-				token.Switch = token.Value.TrimStart(new[] {'-', '/'});
+				token.Switch = token.Value.TrimStart(SwitchPrefixes);
 				token.Value = String.Empty;
 
 				if (token.Switch.Contains(":"))
