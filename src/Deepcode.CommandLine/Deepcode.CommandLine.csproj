@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\CommandLineBinderExtensions.cs" />
     <Compile Include="Binding\_CommandAliasAttribute.cs" />
     <Compile Include="Binding\_CommandInfoAttribute.cs" />
     <Compile Include="Binding\CommandLineBinder.cs" />

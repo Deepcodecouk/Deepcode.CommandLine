@@ -62,6 +62,8 @@ namespace Deepcode.CommandLine.Tests.Binding
 			_binder.UnboundErrors[2].ShouldEqual("Unknown switch option [c] with parameters [delete this]");
 		}
 
+
+
 		[Fact]
 		public void Can_Discover_Unbound_Verbs_And_Parameters()
 		{
