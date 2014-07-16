@@ -219,10 +219,39 @@ myapp.exe verb1 verb2 -yes -no1 -no2 param1 param2 -no3
 ```
 
 ## Validating
-WIP: Using annotations to validate argument classes after binding is complete
+Validation of command line classes is done via standard `System.ComponentModel.DataAnnotations` attributes. You can use any validation attribute on your target model, and the binder will also pre-populate models with any `DefaultValueAttribute` that you may have specified.
+
+To actually validate a model though, you'll want to call;
+
+```csharp
+var validator = new ObjectValidator();
+var validationResult = validator.Validate(theModelToCheck);
+```
+
+This will return an `ObjectValidationResult`, which contains two properties. `IsValid` will tell you if the object validated or not, and if not, you'll find a collection of standard `ValidationResult` objects with the validation errors.
+
+Just a note about this though - There's nothing particularly special going on here, it's just standard validation stuff that's provided by .Net, so it's not really tied directly to the binder. You can call the validator against any object and it will report whether validation succeeded or failed etc.
+
+We do add some additional validation attributes to help you out though:
+
+### MustBeOneOf
+The `MustBeOneOfAttribute` is a validation attribute that will check that the property it is attached to equals one of the values specified on the attribute. Example usages:
+
+```csharp
+public class TestClass
+{
+	[MustBeOneOf("option1", "option2", "option3", ErrorMessage="Option must be option1, option2 or option3")]
+	public string OptionProperty { get; set; }
+
+	[MustBeOneOf(1,2,4,5, ErrorMessage="Numeric must be 1,2,4 or 5")]
+	public int NumericOptionProperty { get; set; }
+}
+```
+### There will be more...
+Additional validation attributes will be provided as and when I come across them in the projects I'm using this for!
 
 ## Documenting
-WIP: Ability to interrogate argument classes to document usage - for things like "myapp.exe help" and "myapp.exe help verb"...
+Coming soon - the ability to interrogate the bound classes to provide usage documentation.
 
 ## Command line based app framework
-WIP: An app framework that determines what command class to load based on verbs, binds to the target command class, validates and then executes the command. Also provides automatic usage/help support.
+Coming soon - wrapping up everything above into a simple console app framework that will, based on verb, load the appropriate command class, bind it to the command arguments, validate and execute the command, with automatic usage/help output....

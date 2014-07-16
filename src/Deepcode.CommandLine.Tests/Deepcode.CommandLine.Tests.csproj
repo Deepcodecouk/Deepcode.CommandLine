@@ -37,6 +37,7 @@
       <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Binding\ArrayBindingFixture.cs" />
+    <Compile Include="Binding\BinderWithDefaultsFixture.cs" />
     <Compile Include="Extensions\CommandLineBinderExtensionsFixture.cs" />
     <Compile Include="Binding\ParameterMultipleBindingFixture.cs" />
     <Compile Include="Binding\SampleBindingFixture.cs" />
@@ -57,9 +59,12 @@
     <Compile Include="Binding\SimpleBindingFixture.cs" />
     <Compile Include="Binding\UnboundArgumentsFixture.cs" />
     <Compile Include="Binding\VerbBindingTypedFixture.cs" />
+    <Compile Include="Extensions\ObjectExtensionsFixture.cs" />
     <Compile Include="Helpers\StringToCommandLineArgumentsExtension.cs" />
     <Compile Include="Parser\CommandLineParserFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\MustBeOneOfAttributeFixture.cs" />
+    <Compile Include="Validation\ObjectValidatorFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

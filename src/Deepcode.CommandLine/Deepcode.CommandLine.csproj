@@ -47,7 +47,9 @@
     <Compile Include="Binding\_CommandInfoAttribute.cs" />
     <Compile Include="Binding\CommandLineBinder.cs" />
     <Compile Include="Binding\ParameterVerbAttribute.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Validation\ObjectValidator.cs" />
     <Compile Include="_CommandLineApplication.cs" />
     <Compile Include="Parser\CommandLineArguments.cs" />
     <Compile Include="Parser\CommandLineParser.cs" />

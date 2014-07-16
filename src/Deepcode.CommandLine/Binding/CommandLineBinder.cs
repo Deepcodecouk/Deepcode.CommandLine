@@ -53,6 +53,8 @@ namespace Deepcode.CommandLine.Binding
 		{
 			UnboundErrors.Clear();
 
+			instance.ApplyDefaultValues();
+
 			BindVerbs(arguments, instance);
 			BindParameters(arguments, instance);
 			return instance;
@@ -63,7 +65,7 @@ namespace Deepcode.CommandLine.Binding
 			if( arguments.Verbs.Length < 1 ) return;
 
 			var verbProperties = typeof(T).GetPropertiesWithCustomAttributes<ParameterVerbAttribute>();
-			
+
 			for (var commandLineVerbIndex=0; commandLineVerbIndex < arguments.Verbs.Length; commandLineVerbIndex++)
 			{
 				var commandLineVerb = arguments.Verbs[commandLineVerbIndex];
