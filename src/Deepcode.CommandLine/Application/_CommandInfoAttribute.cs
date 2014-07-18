@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Deepcode.CommandLine.Binding
+namespace Deepcode.CommandLine.Application
 {
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 	public class CommandInfoAttribute : Attribute

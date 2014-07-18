@@ -42,15 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Documentation\CommandLineDocumentGenerator.cs" />
     <Compile Include="Extensions\CommandLineBinderExtensions.cs" />
-    <Compile Include="Binding\_CommandAliasAttribute.cs" />
-    <Compile Include="Binding\_CommandInfoAttribute.cs" />
+    <Compile Include="Application\_CommandAliasAttribute.cs" />
+    <Compile Include="Application\_CommandInfoAttribute.cs" />
     <Compile Include="Binding\CommandLineBinder.cs" />
     <Compile Include="Binding\ParameterVerbAttribute.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Validation\ObjectValidator.cs" />
-    <Compile Include="_CommandLineApplication.cs" />
+    <Compile Include="Application\_CommandLineApplication.cs" />
     <Compile Include="Parser\CommandLineArguments.cs" />
     <Compile Include="Parser\CommandLineParser.cs" />
     <Compile Include="Validation\MustBeOneOfAttribute.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

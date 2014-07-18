@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using Deepcode.CommandLine.Binding;
 using Deepcode.CommandLine.Extensions;
 
-namespace Deepcode.CommandLine
+namespace Deepcode.CommandLine.Application
 {
 	public class CommandDictionaryEntry
 	{
