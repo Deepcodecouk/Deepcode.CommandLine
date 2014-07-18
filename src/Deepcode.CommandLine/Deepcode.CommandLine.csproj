@@ -50,6 +50,7 @@
     <Compile Include="Binding\ParameterVerbAttribute.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\StringWrapper.cs" />
     <Compile Include="Validation\ObjectValidator.cs" />
     <Compile Include="Application\_CommandLineApplication.cs" />
     <Compile Include="Parser\CommandLineArguments.cs" />

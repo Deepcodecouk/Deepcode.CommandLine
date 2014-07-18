@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Deepcode.CommandLine.Tests.Extensions
 {
-	public class StringExtensionsFixture
+	public class StringWrapperFixture
 	{
 		[Fact]
 		public void Given_String_For_Wrapping_But_Does_Not_Require_It_Then_Returns()
@@ -132,6 +132,22 @@ namespace Deepcode.CommandLine.Tests.Extensions
 			result[2].ShouldEqual("t should l");
 			result[3].ShouldEqual("ongwordher");
 			result[4].ShouldEqual("e wrap    ");
+		}
+
+		[Fact]
+		public void Given_String_For_Wrapping_Normalises_Spaces()
+		{
+			// Arrange
+			// Act
+			var result = "This is   a string      \nthat\nshould wrap".Wrap(10, wordWrap:true, pad:true);
+
+			// Assert
+			result.Length.ShouldEqual(5);
+			result[0].ShouldEqual("This is a ");
+			result[1].ShouldEqual("string    ");
+			result[2].ShouldEqual("that      ");
+			result[3].ShouldEqual("should    ");
+			result[4].ShouldEqual("wrap      ");
 		}
 	}
 }

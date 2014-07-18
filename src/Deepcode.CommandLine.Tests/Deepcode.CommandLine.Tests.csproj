@@ -61,7 +61,7 @@
     <Compile Include="Binding\UnboundArgumentsFixture.cs" />
     <Compile Include="Binding\VerbBindingTypedFixture.cs" />
     <Compile Include="Extensions\ObjectExtensionsFixture.cs" />
-    <Compile Include="Extensions\StringExtensionsFixture.cs" />
+    <Compile Include="Extensions\StringWrapperFixture.cs" />
     <Compile Include="Helpers\StringToCommandLineArgumentsExtension.cs" />
     <Compile Include="Documentation\CommandHelpFixture.cs" />
     <Compile Include="Parser\CommandLineParserFixture.cs" />
