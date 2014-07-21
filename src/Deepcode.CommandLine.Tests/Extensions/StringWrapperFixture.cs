@@ -149,5 +149,14 @@ namespace Deepcode.CommandLine.Tests.Extensions
 			result[3].ShouldEqual("should    ");
 			result[4].ShouldEqual("wrap      ");
 		}
+
+		[Fact]
+		public void Given_String_Wrapping_Exactly_On_Bounds_Wraps_Correctly()
+		{
+			var result = "And this is column 3 in gray or dynamic!".Wrap(20, wordWrap: true, pad: true);
+			result.Length.ShouldEqual(2);
+			result[0].ShouldEqual("And this is column 3");
+			result[1].ShouldEqual("in gray or dynamic! ");
+		}
 	}
 }

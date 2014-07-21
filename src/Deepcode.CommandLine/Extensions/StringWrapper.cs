@@ -94,7 +94,7 @@ namespace Deepcode.CommandLine.Extensions
 			var newCombinedLength = _currentLine.Length + wordLength;
 			var overflow = newCombinedLength - _width;
 
-			return overflow < 0;
+			return overflow <= 0;
 		}
 
 		private bool WordFitsOnOwnLine(string word)
