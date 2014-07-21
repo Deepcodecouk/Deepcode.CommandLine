@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{E7FD7C
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deepcode.CommandLine.Sample", "Deepcode.CommandLine.Sample\Deepcode.CommandLine.Sample.csproj", "{B9A93680-B84E-499E-970B-DF82907BB282}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DE59AEEA-319D-4F97-8E59-6CA8639A3B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE59AEEA-319D-4F97-8E59-6CA8639A3B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE59AEEA-319D-4F97-8E59-6CA8639A3B54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A93680-B84E-499E-970B-DF82907BB282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A93680-B84E-499E-970B-DF82907BB282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A93680-B84E-499E-970B-DF82907BB282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A93680-B84E-499E-970B-DF82907BB282}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

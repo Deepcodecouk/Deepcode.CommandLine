@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Console\ConsoleFormattedOutput.cs" />
+    <Compile Include="Console\FormattedConsoleTable.cs" />
+    <Compile Include="Console\FormattedConsoleTableColumn.cs" />
+    <Compile Include="Console\IFormattedOutput.cs" />
+    <Compile Include="Console\OutputColumn.cs" />
     <Compile Include="Documentation\CommandLineDocumentGenerator.cs" />
     <Compile Include="Extensions\CommandLineBinderExtensions.cs" />
     <Compile Include="Application\_CommandAliasAttribute.cs" />
