@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>Deepcode.CommandLine</id>
+		<version>1.0.0</version>
+		<title>Deepcode.CommandLine</title>
+		<authors>deepcode.co.uk</authors>
+		<owners>deepcode.co.uk</owners>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>
+			Command line handling and processing library.
+		</description>
+		<releaseNotes>N/A</releaseNotes>
+		<copyright>Copyright 2014 deepcode.co.uk</copyright>
+		<tags></tags>
+		<dependencies>
+		</dependencies>
+	</metadata>
+	<files>	
+		<file src="Deepcode.CommandLine.dll" target="lib\net45"/>
+	</files>
+</package>
